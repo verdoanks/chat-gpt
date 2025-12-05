@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from "react";
 
 const CONFIG = {
   apiUrl: "https://aichat.verdoank.workers.dev/",
-  title: "AI Chat",
+  title: "AI ChatGPT",
   primaryColor: "#0084ff", // Warna utama
   welcomeMessage: "Ada pertanyaan? Saya punya jawabannya",
-  watermarkText: "Powered by VERDOANK",
+  watermarkText: "Powered by VERDOANKS",
   watermarkLink: "https://github.com/verdoanks",
   brandingId: "VERDOANK_CHAT_V1",
 };
