@@ -135,25 +135,25 @@ export default function ChatWidget() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Area (Padding Kanan dan Posisi Tombol Diperbaiki) */}
+        {/* Input Area (Padding Kanan Disesuaikan kembali ke pr-16) */}
         <div className="p-3 border-t border-gray-100 bg-white max-sm:pb-6">
           <div className="relative flex items-center">
-            {/* Input Field: pr-20 diubah menjadi pr-24 */}
+            {/* Input Field: pr-24 diubah kembali menjadi pr-16 */}
             <input
               ref={inputRef}
               type="text"
-              className="flex-1 px-4 py-4 pr-24 border border-gray-300 rounded-full text-sm focus:outline-none transition disabled:bg-gray-100 h-14" // pr-20 diubah menjadi pr-24
+              className="flex-1 px-4 py-4 pr-16 border border-gray-300 rounded-full text-sm focus:outline-none transition disabled:bg-gray-100 h-14" // pr-24 diubah kembali menjadi pr-16
               placeholder="Ketik pesan..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
               disabled={isLoading}
             />
-            {/* Send Button: right-1 diubah menjadi right-2 */}
+            {/* Send Button: right-2 diubah kembali menjadi right-1, agar lebih rapat ke ujung */}
             <button
               onClick={handleSendMessage}
               disabled={isLoading || !inputValue.trim()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white shadow-md hover:opacity-90 active:scale-95 transition disabled:bg-gray-300 disabled:cursor-not-allowed" // right-1 diubah menjadi right-2
+              className="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white shadow-md hover:opacity-90 active:scale-95 transition disabled:bg-gray-300 disabled:cursor-not-allowed" // right-2 diubah kembali menjadi right-1
               style={{ backgroundColor: CONFIG.primaryColor }}
             >
               <svg className="w-5 h-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
