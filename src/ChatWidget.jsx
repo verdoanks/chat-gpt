@@ -150,14 +150,14 @@ export default function ChatWidget() {
           <div className="relative">
             <textarea
               ref={inputRef}
-              rows={1} // Mulai dengan 1 baris
-              // Sesuaikan styling untuk textarea: min-height, padding kanan untuk tombol, overflow-y-auto, resize-none, rounded-2xl
+              rows={1}
+              // pr-12 untuk memberi ruang tombol kirim
               className="w-full min-h-[44px] max-h-40 p-2.5 pr-12 border border-gray-300 rounded-2xl text-sm focus:outline-none focus:border-blue-500 transition disabled:bg-gray-100 overflow-y-auto resize-none"
-              placeholder="Tanyakan apa saja" // Ubah placeholder agar lebih mirip referensi
+              placeholder="Tanyakan apa saja" 
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) { // Kirim saat Enter, kecuali jika Shift+Enter (untuk baris baru)
+                if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
                   handleSendMessage();
                 }
@@ -166,17 +166,18 @@ export default function ChatWidget() {
             />
             
             {/* Tombol Kirim di dalam input area (absolute positioning) */}
-            <div className="absolute right-2 bottom-2"> 
+            {/* Menggunakan top-1/2 dan -translate-y-1/2 agar tombol terpusat secara vertikal */}
+            <div className="absolute right-2 top-1/2 -translate-y-1/2"> 
               <button
                 onClick={handleSendMessage}
                 disabled={isLoading || !inputValue.trim()}
-                // Ubah ukuran dan bentuk tombol agar lebih mirip referensi (w-8 h-8, rounded-xl)
-                className="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-md hover:opacity-90 active:scale-95 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                // Menggunakan rounded-full untuk bentuk lingkaran
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md hover:opacity-90 active:scale-95 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
                 style={{ backgroundColor: CONFIG.primaryColor }}
               >
-                {/* Icon Panah Atas (seperti referensi ChatGPT) */}
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M13 7.025l2.457 2.457L17 8.542l-5-5-5 5 1.543 1.54L11 7.024v13.976h2z" />
+                {/* ICON PESAWAT SEMULA */}
+                <svg className="w-5 h-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
                 </svg>
               </button>
             </div>
