@@ -19,7 +19,7 @@ export default function ChatWidget() {
   ]);
 
   const messagesEndRef = useRef(null);
-  const inputRef = useRef(null); // Ref ini sekarang digunakan untuk textarea
+  const inputRef = useRef(null);
 
   // Auto scroll
   useEffect(() => {
@@ -86,6 +86,7 @@ export default function ChatWidget() {
       
       setMessages(prev => [...prev, { role: "assistant", content: reply }]);
     } catch (error) {
+      // PERHATIAN: Pesan error koneksi ada di sini (yang dilingkari merah pada gambar kedua)
       setMessages(prev => [...prev, { role: "assistant", content: "Maaf, terjadi gangguan koneksi." }]);
     } finally {
       setIsLoading(false);
@@ -145,43 +146,51 @@ export default function ChatWidget() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Area BARU */}
-        <div className="p-3 border-t border-gray-100 bg-white max-sm:pb-6">
-          <div className="relative">
-            <textarea
-              ref={inputRef}
-              rows={1}
-              // pr-12 untuk memberi ruang tombol kirim
-              className="w-full min-h-[44px] max-h-40 p-2.5 pr-12 border border-gray-300 rounded-2xl text-sm focus:outline-none focus:border-blue-500 transition disabled:bg-gray-100 overflow-y-auto resize-none"
-              placeholder="Tanyakan apa saja" 
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-                }
-              }}
-              disabled={isLoading}
-            />
-            
-            {/* Tombol Kirim di dalam input area (absolute positioning) */}
-            {/* Menggunakan top-1/2 dan -translate-y-1/2 agar tombol terpusat secara vertikal */}
-            <div className="absolute right-2 top-1/2 -translate-y-1/2"> 
-              <button
-                onClick={handleSendMessage}
-                disabled={isLoading || !inputValue.trim()}
-                // Menggunakan rounded-full untuk bentuk lingkaran
-                className="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md hover:opacity-90 active:scale-95 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
-                style={{ backgroundColor: CONFIG.primaryColor }}
-              >
-                {/* ICON PESAWAT SEMULA */}
-                <svg className="w-5 h-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                </svg>
-              </button>
+        {/* Input Area (Re-struktur) */}
+        {/* Menggunakan 'flex' untuk menyejajarkan textarea dan tombol. Menggunakan 'relative' pada elemen textarea untuk menempatkan tombol di dalamnya. */}
+        <div className="p-3 border-t border-gray-100 bg-white flex items-end gap-2 max-sm:pb-6">
+            <div className="relative flex-1">
+                <textarea
+                    ref={inputRef}
+                    rows={1}
+                    // Menyesuaikan padding-right agar tidak menutupi tombol
+                    className="w-full min-h-[44px] max-h-40 py-2.5 px-4 pr-12 border border-gray-300 rounded-2xl text-sm focus:outline-none focus:border-blue-500 transition disabled:bg-gray-100 overflow-y-auto resize-none"
+                    placeholder="Tanyakan apa saja" 
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSendMessage();
+                        }
+                    }}
+                    disabled={isLoading}
+                />
+                
+                {/* Tombol Kirim di dalam input area (absolute positioning) */}
+                {/* Menggunakan bottom-1/2 dan translate-y-1/2 untuk menengahkan tombol pada baris tunggal, 
+                   dan bottom-2 saat input menjadi multi-baris agar tombol tetap di baris terakhir. 
+                   Namun, untuk tata letak sederhana seperti gambar pertama, kita pakai posisi absolute 
+                   yang diselaraskan dengan padding-right input. */}
+                <button
+                    onClick={handleSendMessage}
+                    disabled={isLoading || !inputValue.trim()}
+                    className={`
+                      absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full 
+                      flex items-center justify-center text-white shadow-md transition
+                      ${isLoading || !inputValue.trim() 
+                          ? 'bg-gray-300 cursor-not-allowed' 
+                          : 'hover:opacity-90 active:scale-95'
+                      }
+                    `}
+                    style={{ backgroundColor: CONFIG.primaryColor }}
+                >
+                    {/* ICON PESAWAT */}
+                    <svg className="w-5 h-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                    </svg>
+                </button>
             </div>
-          </div>
         </div>
 
         {/* Footer / Watermark */}
@@ -209,4 +218,4 @@ export default function ChatWidget() {
 
     </div>
   );
-}
+      }
