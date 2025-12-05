@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 
 const CONFIG = {
   apiUrl: "https://aichat.verdoank.workers.dev/",
-  title: "AI Chat",
+  title: "AI ChatGPT",
   primaryColor: "#0084ff", // Warna utama
   welcomeMessage: "Ada pertanyaan? Saya punya jawabannya",
   watermarkText: "Powered by VERDOANKS",
@@ -135,25 +135,25 @@ export default function ChatWidget() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Area (Perbaikan Border Radius dan Tombol) */}
+        {/* Input Area (Tinggi Input Ditingkatkan) */}
         <div className="p-3 border-t border-gray-100 bg-white max-sm:pb-6">
           <div className="relative flex items-center">
-            {/* Input Field: rounded-full dan menghilangkan focus:border-blue-500 */}
+            {/* Input Field: h-14 (lebih tinggi) dan py-4 (padding vertikal) */}
             <input
               ref={inputRef}
               type="text"
-              className="flex-1 p-3.5 pr-14 border border-gray-300 rounded-full text-sm focus:outline-none transition disabled:bg-gray-100 h-12" // Diganti rounded-2xl ke rounded-full. focus:border-blue-500 dihapus.
+              className="flex-1 px-4 py-4 pr-14 border border-gray-300 rounded-full text-sm focus:outline-none transition disabled:bg-gray-100 h-14" // Diubah h-12 ke h-14 dan p-3.5 ke px-4 py-4
               placeholder="Ketik pesan..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
               disabled={isLoading}
             />
-            {/* Send Button: rounded-full */}
+            {/* Send Button: Tetap menggunakan rounded-full dan posisi tengah vertikal */}
             <button
               onClick={handleSendMessage}
               disabled={isLoading || !inputValue.trim()}
-              className="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white shadow-md hover:opacity-90 active:scale-95 transition disabled:bg-gray-300 disabled:cursor-not-allowed" // Diganti rounded-xl ke rounded-full
+              className="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white shadow-md hover:opacity-90 active:scale-95 transition disabled:bg-gray-300 disabled:cursor-not-allowed" 
               style={{ backgroundColor: CONFIG.primaryColor }}
             >
               <svg className="w-5 h-5 ml-0.5" viewBox="0 0 24 24" fill="currentColor">
@@ -188,4 +188,4 @@ export default function ChatWidget() {
 
     </div>
   );
-  }
+}
