@@ -1,21 +1,33 @@
 // src/App.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ChatInterface from "./ChatInterface";
 
 function App() {
-  const [showChat, setShowChat] = useState(false);
+  // Ambil status terakhir dari localStorage saat pertama kali load
+  const [showChat, setShowChat] = useState(() => {
+    const savedPage = localStorage.getItem("active_page");
+    return savedPage === "chat"; // Jika "chat", langsung tampilkan chat
+  });
+
+  // Simpan status halaman setiap kali showChat berubah
+  useEffect(() => {
+    localStorage.setItem("active_page", showChat ? "chat" : "home");
+  }, [showChat]);
+
+  // Fungsi untuk kembali ke beranda (lewat tombol < di header)
+  const handleBackToHome = () => {
+    setShowChat(false);
+  };
 
   if (showChat) {
-    return <ChatInterface onBack={() => setShowChat(false)} />;
+    return <ChatInterface onBack={handleBackToHome} />;
   }
 
   return (
     <div className="min-h-dvh bg-slate-50 flex items-center justify-center p-6">
       <div className="max-w-md w-full text-center space-y-8 p-10 bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100">
-        <div className="w-20 h-20 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-orange-600">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
-          </svg>
+        <div className="w-20 h-20 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-orange-600 font-bold text-4xl">
+          A
         </div>
         
         <div className="space-y-2">
